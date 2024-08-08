@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/websitecss/style.css' %}">
+</head>
+<body>
+  <header>
+    <div class="nav container">
+        <a href="#" class="logo">Blog <span>Life</span></a>
+        {% if user.is_authenticated %}
+            <div class="div">
+                {% if user.role == 'Admin' %}
+                    <a href="{% url 'admin' %}" class="login">Admin</a>
+                {% elif user.role == 'Blogger' %}
+                    <a href="" class="login">Blogger</a>
+                {% endif %}
+                <a href="{% url 'logout' %}" class="login">Log Out</a>
+            </div>
+        {% else %}
+            <a href="{% url 'register' %}" class="login">Sign Up</a>
+        {% endif %}
+    </div>    
+  </header>
+
+    <section class="home" id="home">
+        <div class="home-text container">
+            <h2 class="home-title">Trend Blogger</h2>
+            <span class="home-subtitle">Your source of great content</span>
+        </div>
+    </section>
+
+    <section class="about container" id="about">
+        <div class="contentBx">
+            <h2 class="titleText">Catch up with the trending topics</h2>
+            <p class="title-text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum eos consequuntur voluptate dolorum
+                totam provident ducimus cupiditate dolore doloribus repellat. Saepe ad fugit similique quis quam. Odio
+                suscipit incidunt distinctio.
+                <br>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed blanditiis libero pariatur ipsum
+                suscipit voluptates aut, repellendus quos dolor autem, natus laboriosam consectetur maxime cumque, sunt
+                magni optio? Veritatis, ea?
+            </p>
+            <a href="{% url 'post_blog' %}" class="btn2">Post A Blog</a>
+        </div>
+        <div class="imgBx">
+            <img src="{% static 'Images/about.png' %}" alt="" class="fitBg">
+        </div>
+    </section>
+
+    <div class="post-filter container">
+        <span class="filter-item active-filter" data-filter="all">All</span>
+        <span class="filter-item" data-filter="tech">Tech</span>
+        <span class="filter-item" data-filter="food">Food</span>
+        <span class="filter-item" data-filter="news">News</span>
+    </div>
+    <body>
+        <div class="post container">
+            {% if blog_posts %}
+                {% for post in blog_posts %}
+                <div class="post-box {{ post.category|lower }}">
+                    <img src="{{ post.blog_photo.url }}" alt="" class="post-img">
+                    <h2 class="category">{{ post.category }}</h2>
+                    <a href="{% url 'blog_detail' post.pk %}" class="post-title">{{ post.heading }}</a>
+                    <span class="post-date">{{ post.date }}</span>
+                    <p class="post-description">{{ post.content|truncatewords:30 }}</p>
+                    <div class="profile">
+                        <img src="{{ post.author.profile_image.url }}" alt="" class="profile-img">
+                        <span class="profile-name">{{ post.author.first_name }} {{ post.author.last_name }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No blogs available</p>
+            {% endif %}
+        </div>
+    <footer>
+        <div class="footer-container">
+            <div class="sec aboutus">
+                <h2>About Us</h2>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ducimus quisquam minus quo illo numquam vel incidunt pariatur hic commodi expedita tempora praesentium at iure fugiat ea, quam laborum aperiam veritatis.</p>
+                <ul class="sci">
+                    <li><a href="#"><i class="bx bxl-facebook"></i></a></li>
+                    <li><a href="#"><i class="bx bxl-instagram"></i></a></li>
+                    <li><a href="#"><i class="bx bxl-twitter"></i></a></li>
+                    <li><a href="#"><i class="bx bxl-linkedin"></i></a></li>
+                </ul>
+            </div>
+            <div class="sec quicklinks">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </div>
+            <div class="sec contactBx">
+                <h2>Contact Info</h2>
+                <ul class="info">
+                    <li>
+                        <span><i class='bx bxs-map'></i></span>
+                        <span>Tavareker Road <br> Bengaluru, 560029 <br> Karnataka</span>
+                    </li>
+                    <li>
+                        <span><i class='bx bx-envelope' ></i></span>
+                        <p><a href="mailto:codemyhobby9@gmail.com">axyz10649@gmail.com</a></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

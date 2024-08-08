@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Blogger</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Blogger</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" name="first_name" value="{{ blogger.first_name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" value="{{ blogger.last_name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="{{ blogger.email }}" required>
+            </div>
+            <button type="submit">Update Blogger</button>
+            <a href="{% url 'manage_bloggers' %}"><button type="button">Cancel</button></a>
+        </form>
+    </div>
+</body>
+</html>

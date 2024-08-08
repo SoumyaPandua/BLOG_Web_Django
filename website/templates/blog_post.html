@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/websitecss/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/authcss/auth.css' %}">
+</head>
+<body>
+    <header>
+        <div class="nav container">
+            <a href="#" class="logo">Blog <span>Life</span></a>
+            {% if user.is_authenticated %}
+                <div class="div">
+                    {% if user.role == 'Admin' %}
+                    <a href="{% url 'admin' %}" class="login">Admin</a>
+                    {% elif user.role == 'Blogger' %}
+                        <a href="" class="login">Blogger</a>
+                    {% endif %}
+                    <a href="{% url 'logout' %}" class="login">Log Out</a>
+                </div>
+            {% else %}
+                <a href="{% url 'register' %}" class="login">Sign Up</a>
+            {% endif %}
+        </div>    
+      </header>
+
+  <section class="home" id="home">
+    <div class="home-text container">
+        <h2 class="home-title">Trend Blogger</h2>
+        <span class="home-subtitle">Your source of great content</span>
+    </div>
+  </section>
+
+  <section class="about container" id="about">
+    <div class="contentBx">
+        <h2 class="category font" style="text-align: center; font-size: 30px; font-weight: bold;">POST A BLOG</h2>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="flex" style="display: flex; justify-content: space-between; gap: 10px;">
+              <div class="form-group firstname">
+                  <label for="name">Name</label>
+                  <input type="text" id="name" value="{{ user.first_name }} {{ user.last_name }}" readonly>
+              </div>
+              <div class="form-group photo">
+                  <label for="photo">Photo</label>
+                  <img src="{{ user.profile_image.url }}" alt="Profile Image" id="profile_image" style="height: 40px; width: 40px; border-radius: 50%;">
+              </div>
+          </div>
+          <div class="form-group heading">
+              <label for="heading">Blog Heading</label>
+              <input type="text" id="heading" name="heading" placeholder="Enter your heading">
+          </div>
+          <div class="form-group categories">
+              <label for="category">Blog Category</label>
+              <select id="category" name="category">
+                  <option value="" selected disabled>Select your category</option>
+                  <option value="Tech">Tech</option>
+                  <option value="Food">Food</option>
+                  <option value="News">News</option>
+              </select>
+          </div>
+          <div class="flex" style="display: flex; justify-content: space-between; gap: 10px;">
+              <div class="form-group photo">
+                  <label for="blog_photo">Blog Photo</label>
+                  <input type="file" id="blog_photo" name="blog_photo">
+              </div>
+              <div class="form-group date">
+                  <label for="date">Date</label>
+                  <input type="date" id="date" name="date" placeholder="Enter date">
+              </div>
+          </div>
+          <div class="form-group">
+              <textarea name="content" id="content" style="width: 100%; min-height: 100px;" placeholder="Enter your content"></textarea>
+          </div>
+          <div class="form-group submit-btn">
+              <input type="submit" value="Post Blog">
+          </div>
+      </form>      
+    </div>
+</section>
+
+  <footer>
+    <div class="footer-container">
+        <div class="sec aboutus">
+            <h2>About Us</h2>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ducimus quisquam minus quo illo numquam vel incidunt pariatur hic commodi expedita tempora praesentium at iure fugiat ea, quam laborum aperiam veritatis.</p>
+            <ul class="sci">
+                <li><a href="#"><i class="bx bxl-facebook"></i></a></li>
+                <li><a href="#"><i class="bx bxl-instagram"></i></a></li>
+                <li><a href="#"><i class="bx bxl-twitter"></i></a></li>
+                <li><a href="#"><i class="bx bxl-linkedin"></i></a></li>
+            </ul>
+        </div>
+        <div class="sec quicklinks">
+            <h2>Quick Links</h2>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </div>
+        <div class="sec contactBx">
+            <h2>Contact Info</h2>
+            <ul class="info">
+                <li>
+                    <span><i class='bx bxs-map'></i></span>
+                    <span>Tavareker Road <br> Bengaluru, 560029 <br> Karnataka</span>
+                </li>
+                <li>
+                    <span><i class='bx bx-envelope' ></i></span>
+                    <p><a href="mailto:codemyhobby9@gmail.com">axyz10649@gmail.com</a></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

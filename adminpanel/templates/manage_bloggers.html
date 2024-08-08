@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="{% static 'css/admincss/styles.css' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="#" class="logo">
+          <img src="./pic/logo.jpg">
+          <span class="nav-item">Admin</span>
+        </a></li>
+        <li><a href="#">
+          <i class="fas fa-menorah"></i>
+          <span class="nav-item">Manage Blogger</span>
+        </a></li>
+        <li><a href="#" class="logout">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="nav-item">Log out</span>
+        </a></li>
+      </ul>
+    </nav>
+
+    <section class="main">
+      <div class="main-top">
+        <h1>Bloggers</h1>
+      </div>
+      <div class="users-container">
+      </div>
+
+      <section class="attendance">
+        <div class="attendance-list">
+          <h1>Blog Post Details</h1>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>email</th>
+                <th>Manage</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for blogger in bloggers %}
+                <tr>
+                    <td>{{ blogger.id }}</td>
+                    <td>{{ blogger.first_name }} {{ blogger.last_name }}</td>
+                    <td>{{ blogger.email }}</td>
+                    <td>
+                        <a href="{% url 'edit_blogger' blogger.id %}"><button>Edit</button></a>
+                        <a href="{% url 'delete_blogger' blogger.id %}"><button>Delete</button></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </div>
+</body>
+</html>

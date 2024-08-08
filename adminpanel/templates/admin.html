@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="{% static 'css/admincss/styles.css' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="#" class="logo">
+          {% if user.profile_image %}
+                    <img src="{{ user.profile_image.url }}" alt="{{ user.username }}'s photo" class="user-photo">
+                {% endif %}
+          <span class="nav-item">Admin</span>
+        </a></li>
+        <li><a href="{% url 'manage_bloggers' %}">
+          <i class="fas fa-menorah"></i>
+          <span class="nav-item">Manage Blogger</span>
+        </a></li>
+        <li><a href="{% url 'logout' %}" class="logout">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="nav-item">Log out</span>
+        </a></li>
+      </ul>
+    </nav>
+
+    <section class="main">
+      <div class="main-top">
+        <h1>Bloggers</h1>
+        <i class="fas fa-user-cog"></i>
+      </div>
+      <div class="users-container">
+        <div class="users">
+          {% for data in bloggers_data %}
+                <div class="card">
+                    <img src="{{ data.blogger.profile_image.url }}" alt="Profile Image">
+                    <h4>{{ data.blogger.first_name }} {{ data.blogger.last_name }}</h4>
+                    <p>Blogger</p>
+                    <div class="per">
+                        <table>
+                            <tr>
+                                <td><span>{{ data.post_count }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>Total Post</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                {% endfor %}
+        </div>
+      </div>
+
+      <section class="attendance">
+        <div class="attendance-list">
+          <h1>Blog Post Details</h1>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Manage</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for post in blog_posts %}
+                <tr>
+                    <td>{{ post.id }}</td>
+                    <td>
+                        {% if post.heading|length > 15 %}
+                            {{ post.heading|slice:":15" }}...
+                        {% else %}
+                            {{ post.heading }}
+                        {% endif %}
+                    </td>
+                    <td>{{ post.author.first_name }} {{ post.author.last_name }}</td>
+                    <td>{{ post.category }}</td>
+                    <td>{{ post.date|date:"m-d-Y" }}</td>
+                    <td>
+                        <a href="{% url 'edit_post' post.id %}"><button>Edit</button></a>
+                        <a href="{% url 'delete_post' post.id %}"><button>Delete</button></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </div>
+</body>
+</html>
